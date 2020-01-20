@@ -29,34 +29,34 @@ def all_lessons():
 
     По умолчанию выводим только первые 5
     """
-    lessons = db.session.query(Lesson).order_by(Lesson.datetime).limit(5)
+    lessons_query = db.session.query(Lesson).order_by(Lesson.datetime).limit(5)
     html = ''
-    for lesson in lessons:
+    for lesson_item in lessons_query:
         html += """
         <p>
-        Предмет - {l.subject}<br/>
-        Дата и время - {l.datetime}<br/>
-        Место проведения - {l.address}<br/>
-        <a href="/lesson/{l.id}">Подробнее</a>
+        Предмет - {lesson.subject}<br/>
+        Дата и время - {lesson.datetime}<br/>
+        Место проведения - {lesson.address}<br/>
+        <a href="/lesson/{lesson.id}">Подробнее</a>
         </p>
-        """.format(l=lesson)
+        """.format(lesson=lesson_item)
     return html
 
 
 @app.route('/lesson/<int:lesson_id>')
 def lesson(lesson_id):
     """Информация о занятии"""
-    lesson = db.session.query(Lesson).get_or_404(lesson_id)
+    lesson_query = db.session.query(Lesson).get_or_404(lesson_id)
     html = """
     <p>
-    Предмет - {l.subject}<br/>
-    Дата и время - {l.datetime}<br/>
-    Место проведения - {l.address}<br/>
-    Аудитория - {l.room}<br/>
-    Группа студентов - {l.group}<br/>
-    Тема занятия - {l.topic}
+    Предмет - {lesson.subject}<br/>
+    Дата и время - {lesson.datetime}<br/>
+    Место проведения - {lesson.address}<br/>
+    Аудитория - {lesson.room}<br/>
+    Группа студентов - {lesson.group}<br/>
+    Тема занятия - {lesson.topic}
     </p>
-    """.format(l=lesson)
+    """.format(lesson=lesson_query)
     return html
 
 
